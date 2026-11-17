@@ -1,0 +1,9 @@
+# Cloudflare Pages configuration.
+#
+# `npx wrangler pages deploy` reads these values, and the Cloudflare dashboard
+# uses the output directory when the project is connected to a Git repository.
+# If your Pages project already has a different name, either rename it here or
+# pass `--project-name=<name>` on the command line.
+name = "workplace-harassment-universe"
+compatibility_date = "2026-11-17"
+pages_build_output_dir = "./dist"
