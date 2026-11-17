@@ -2,11 +2,20 @@
  * Workplace Harassment G8 — Feedback Configuration
  */
 
-export const FEEDBACK_ENDPOINT = (import.meta.env.VITE_FEEDBACK_ENDPOINT || '').trim()
-export const CONFIGURED_SITE_URL = (import.meta.env.VITE_SITE_URL || '').trim()
+// Default deployed Google Apps Script Web App endpoint for Group 8
+export const DEFAULT_FEEDBACK_ENDPOINT =
+  'https://script.google.com/macros/s/AKfycbwuzsup3x8PDKnVhUv7tqnfTXZWnejSVM7QT1qyRhIRw5EvmjzX4H0y0UUagZ5LA_MS/exec'
 
-// Default fallback public production URL if not explicitly configured in .env
-export const DEFAULT_PRODUCTION_URL = 'https://workplace-harassment-universe.pages.dev'
+export const FEEDBACK_ENDPOINT = (
+  import.meta.env.VITE_FEEDBACK_ENDPOINT || DEFAULT_FEEDBACK_ENDPOINT
+).trim()
+
+// Default fallback public production URL
+export const DEFAULT_PRODUCTION_URL = 'https://workplace-harassment-g8.pages.dev'
+
+export const CONFIGURED_SITE_URL = (
+  import.meta.env.VITE_SITE_URL || DEFAULT_PRODUCTION_URL
+).trim()
 
 /**
  * Returns true if running on a local development host.
