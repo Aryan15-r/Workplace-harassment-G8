@@ -31,7 +31,7 @@ export function CameraController({ controlsRef, reducedMotion }: CameraControlle
   const focus = useAppStore((state) => state.focus)
   const resetNonce = useAppStore((state) => state.resetNonce)
 
-  const desiredPosition = useRef(new THREE.Vector3(0, 5.2, 32))
+  const desiredPosition = useRef(new THREE.Vector3(0, 7.2, 31.2))
   const desiredTarget = useRef(new THREE.Vector3(0, 0, 0))
   const startPosition = useRef(new THREE.Vector3())
   const startTarget = useRef(new THREE.Vector3())
@@ -76,7 +76,8 @@ export function CameraController({ controlsRef, reducedMotion }: CameraControlle
   const applyDefaultView = useCallback(() => {
     const width = window.innerWidth
     const distance = width < 720 ? 42 : width < 1100 ? 36 : 32
-    desiredPosition.current.set(0, distance * 0.16, distance)
+    // Tilted vertically (~13 deg vertical perspective) for layered depth
+    desiredPosition.current.set(0, distance * 0.225, distance * 0.974)
     desiredTarget.current.set(0, 0, 0)
     beginFlight()
   }, [beginFlight])

@@ -13,7 +13,7 @@ This guide explains step-by-step how to set up the Google Sheets storage backend
 flowchart LR
     A["Feedback Page<br/>(/feedback)"] -->|"POST JSON<br/>(text/plain)"| B["Google Apps Script<br/>Web App (Code.gs)"]
     B -->|"Validate & Append Row"| C["Google Sheet<br/>(Feedback Tab)"]
-    C -->|"Columns:<br/>Timestamp | Name | Student ID | Feedback | Rating"| C
+    C -->|"Columns:<br/>Timestamp | Name | Reg. No. / Emp. ID | Feedback | Rating"| C
     B -->|"JSON Response"| A
 ```
 
@@ -67,7 +67,7 @@ Before deploying, test that Google allows the script to access your sheet:
 6. Look at the **Execution log** at the bottom. It should say:
    `Sheet connection verified! Sheet name: Feedback`.
 7. Switch back to your Google Sheet tab. You will see the styled header row:
-   `Timestamp | Name | Student ID | Feedback | Rating`
+   `Timestamp | Name | Reg. No. / Emp. ID | Feedback | Rating`
 
 ---
 
@@ -144,4 +144,4 @@ You should see a JSON response:
 5. Enter a feedback review: `Great 3D visualization and clear explanation of the POSH Act!`.
 6. Click **Submit Feedback**.
 7. You will see the animated success screen.
-8. Switch to your Google Sheet — a new row with the timestamp, name, student ID, feedback, and rating will appear instantly!
+8. Switch to your Google Sheet — a new row with the timestamp, name, Reg. No. / Emp. ID, feedback, and rating will appear instantly!

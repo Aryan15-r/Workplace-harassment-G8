@@ -169,7 +169,7 @@ fonts all load from `dist/` with no 404s, and the 3D scene renders from the buil
 The presentation website features a dedicated custom feedback collection system integrated directly with Google Sheets.
 
 * **Dedicated Route**: [`/feedback`](/feedback) (accessible via direct link, in-app navigation, or QR code).
-* **Fields**: Name (required), Student ID (optional), Star Rating (1–5 stars), Feedback / Review (required textarea).
+* **Fields**: Name (required), Reg. No. or Emp. ID (optional), Star Rating (1–5 stars), Feedback / Review (required textarea).
 * **Spam & Flooding Protection**: Honeypot field and short-term duplicate submission caching.
 * **Storage Backend**: Google Apps Script (`backend/google-apps-script/Code.gs`) saving to Google Sheets without requiring attendees to sign in.
 * **Printable QR Code**: Displayed on the interactive site and integrated directly onto the printable A3 poster for mobile scanning.

@@ -105,7 +105,10 @@ console.log('--- RUNNING FEEDBACK SYSTEM TESTS ---')
     feedback: 'Great presentation and clear knowledge tree.',
     rating: 5,
   }
-  assert(!validateFeedback(tooLongStudentId).valid, 'Student ID > 50 characters must be rejected')
+  assert(
+    !validateFeedback(tooLongStudentId).valid,
+    'Reg. No. or Emp. ID > 50 characters must be rejected',
+  )
   console.log('✓ Test 5: Field length limits passed')
 }
 

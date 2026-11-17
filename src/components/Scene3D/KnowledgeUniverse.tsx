@@ -25,7 +25,7 @@ export function KnowledgeUniverse() {
           alpha: false,
           powerPreference: 'high-performance',
         }}
-        camera={{ position: [0, 5.2, 32], fov: 46, near: 0.1, far: 260 }}
+        camera={{ position: [0, 7.2, 31.2], fov: 46, near: 0.1, far: 260 }}
         onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping
           gl.toneMappingExposure = 1.12

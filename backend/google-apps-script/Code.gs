@@ -29,7 +29,7 @@ const SPREADSHEET_ID = '';
 const SHEET_NAME = 'Feedback';
 
 // Expected table headers
-const EXPECTED_HEADERS = ['Timestamp', 'Name', 'Student ID', 'Feedback', 'Rating'];
+const EXPECTED_HEADERS = ['Timestamp', 'Name', 'Reg. No. / Emp. ID', 'Feedback', 'Rating'];
 
 /**
  * Handles GET requests:
@@ -120,7 +120,7 @@ function doPost(e) {
     if (studentId.length > 50) {
       return createJsonResponse({
         status: 'error',
-        message: 'Student ID cannot exceed 50 characters.'
+        message: 'Reg. No. or Emp. ID cannot exceed 50 characters.'
       });
     }
 

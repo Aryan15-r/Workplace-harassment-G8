@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   AlertCircle,
   ArrowLeft,
+  ArrowUp,
   CheckCircle2,
   GraduationCap,
   Loader2,
@@ -45,6 +46,22 @@ export function FeedbackPage({ onBackToUniverse }: FeedbackPageProps) {
     null,
   )
   const [qrModalOpen, setQrModalOpen] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const containerRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0
+    }
+  }, [isSuccess])
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    setShowScrollTop(e.currentTarget.scrollTop > 260)
+  }
+
+  const scrollToTop = () => {
+    containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   // Field validation on blur
   const handleBlur = (field: 'name' | 'studentId' | 'feedback' | 'rating') => {
@@ -131,7 +148,11 @@ export function FeedbackPage({ onBackToUniverse }: FeedbackPageProps) {
   const ratingDescription = activeRatingDisplay ? RATING_DESCRIPTIONS[activeRatingDisplay] : ''
 
   return (
-    <div className="relative min-h-[100dvh] w-full overflow-x-hidden bg-ink-0 text-[#f5f5f5] selection:bg-gold/30 selection:text-white">
+    <div
+      ref={containerRef}
+      onScroll={handleScroll}
+      className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden overscroll-y-contain bg-ink-0 text-[#f5f5f5] selection:bg-gold/30 selection:text-white"
+    >
       {/* Background Ambience */}
       <div
         className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-15%,rgba(255,211,78,0.12),transparent_70%)]"
@@ -225,7 +246,7 @@ export function FeedbackPage({ onBackToUniverse }: FeedbackPageProps) {
                   </div>
                   {submittedData.studentId && (
                     <div className="mt-2.5 flex items-center justify-between border-b border-white/[0.06] pb-2.5">
-                      <span className="text-[12px] text-haze">Student ID:</span>
+                      <span className="text-[12px] text-haze">Reg. No. / Emp. ID:</span>
                       <span className="font-mono text-[12px] text-[#f5f5f5]">
                         {submittedData.studentId}
                       </span>
@@ -447,7 +468,7 @@ export function FeedbackPage({ onBackToUniverse }: FeedbackPageProps) {
                   )}
                 </div>
 
-                {/* Student ID Field (Optional) */}
+                {/* Reg. No. or Emp. ID Field (Optional) */}
                 <div>
                   <div className="flex items-center justify-between">
                     <label
@@ -455,21 +476,18 @@ export function FeedbackPage({ onBackToUniverse }: FeedbackPageProps) {
                       className="flex items-center gap-1.5 font-display text-[13px] font-medium text-[#ECE8DE]"
                     >
                       <GraduationCap className="h-3.5 w-3.5 text-gold/70" />
-                      <span>Student ID / Roll No.</span>
+                      <span>Reg. No. or Emp. ID</span>
                     </label>
                     <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-haze">
                       Optional
                     </span>
                   </div>
-                  <p className="mt-0.5 text-[11px] text-haze">
-                    Provide if needed for college presentation attendance or course records.
-                  </p>
                   <div className="relative mt-2">
                     <input
                       id="feedback-student-id"
                       type="text"
                       maxLength={50}
-                      placeholder="e.g., 2024-ETH-042"
+                      placeholder="e.g., 26BCExxxx or 987654"
                       value={studentId}
                       onChange={(e) => {
                         setStudentId(e.target.value)
@@ -584,6 +602,25 @@ export function FeedbackPage({ onBackToUniverse }: FeedbackPageProps) {
           )}
         </AnimatePresence>
       </main>
+
+      {/* Scroll to Top Floating Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            key="scroll-top-btn"
+            type="button"
+            onClick={scrollToTop}
+            aria-label="Scroll to top"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: reducedMotion ? 0 : 0.2 }}
+            className="fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-gold/40 bg-[#161618]/90 text-gold shadow-[0_4px_16px_rgba(0,0,0,0.6)] backdrop-blur transition-all hover:scale-105 hover:bg-gold/20"
+          >
+            <ArrowUp className="h-4 w-4" />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* QR Code Modal */}
       <FeedbackQRModal

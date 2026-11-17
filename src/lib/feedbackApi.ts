@@ -46,7 +46,7 @@ export function validateFeedback(data: FeedbackSubmission): FeedbackValidationRe
 
   const trimmedStudentId = (data.studentId || '').trim()
   if (trimmedStudentId && trimmedStudentId.length > 50) {
-    errors.studentId = 'Student ID cannot exceed 50 characters.'
+    errors.studentId = 'Reg. No. or Emp. ID cannot exceed 50 characters.'
   }
 
   if (!data.rating || data.rating < 1 || data.rating > 5) {
