@@ -1,5 +1,8 @@
+import { useEffect, useRef } from 'react'
 import { ArrowLeft, Printer } from 'lucide-react'
+import { getFeedbackQrUrl } from '@/config/feedbackConfig'
 import { CHILDREN, MAIN_TOPICS, ROOT_TOPIC, SUB_TOPICS } from '@/data/topics'
+import { renderQrToCanvas } from '@/lib/qrCodeUtil'
 import { useAppStore } from '@/store/useAppStore'
 
 /**
@@ -9,6 +12,23 @@ import { useAppStore } from '@/store/useAppStore'
  */
 export function PosterView() {
   const setPoster = useAppStore((state) => state.setPoster)
+  const qrCanvasRef = useRef<HTMLCanvasElement | null>(null)
+  const qrUrl = getFeedbackQrUrl()
+
+  useEffect(() => {
+    if (qrCanvasRef.current) {
+      renderQrToCanvas(qrCanvasRef.current, qrUrl, {
+        width: 140,
+        margin: 1,
+        color: {
+          dark: '#16130e',
+          light: '#ffffff',
+        },
+      }).catch((err) => {
+        console.error('Failed to draw poster QR:', err)
+      })
+    }
+  }, [qrUrl])
 
   return (
     <div className="poster-root">
@@ -101,6 +121,13 @@ export function PosterView() {
               addressed through service rules, criminal law (Bharatiya Nyaya Sanhita, 2023) and
               organisational policy.
             </p>
+            <div className="poster-qr">
+              <canvas ref={qrCanvasRef} className="poster-qr__canvas" />
+              <div className="poster-qr__meta">
+                <span className="poster-qr__heading">Share Feedback</span>
+                <span className="poster-qr__sub">Scan with phone to review</span>
+              </div>
+            </div>
             <p className="poster-meta">
               Workplace Harassment
               <br />

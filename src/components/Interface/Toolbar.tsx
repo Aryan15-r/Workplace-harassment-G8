@@ -1,4 +1,4 @@
-import { RotateCcw } from 'lucide-react'
+import { QrCode, RotateCcw } from 'lucide-react'
 import { useAppStore } from '@/store/useAppStore'
 
 const LEGEND = [
@@ -9,6 +9,7 @@ const LEGEND = [
 
 export function Toolbar() {
   const resetCamera = useAppStore((state) => state.resetCamera)
+  const setFeedbackQrOpen = useAppStore((state) => state.setFeedbackQrOpen)
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 flex items-end justify-between gap-4 p-4 sm:p-6">
@@ -25,14 +26,26 @@ export function Toolbar() {
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={resetCamera}
-          className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-[10.5px] font-medium text-haze transition-colors duration-200 hover:border-gold/30 hover:text-[#F5F5F5]"
-        >
-          <RotateCcw className="h-3 w-3" strokeWidth={1.7} />
-          Reset view
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={resetCamera}
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-[10.5px] font-medium text-haze transition-colors duration-200 hover:border-gold/30 hover:text-[#F5F5F5]"
+          >
+            <RotateCcw className="h-3 w-3" strokeWidth={1.7} />
+            Reset view
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setFeedbackQrOpen(true)}
+            title="Display Feedback QR code"
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-gold/25 bg-gold/[0.04] px-3 py-2 text-[10.5px] font-medium text-gold transition-colors duration-200 hover:border-gold/45 hover:bg-gold/10"
+          >
+            <QrCode className="h-3 w-3" strokeWidth={1.7} />
+            Feedback QR
+          </button>
+        </div>
       </div>
 
       <p className="pointer-events-none hidden font-mono text-[9.5px] uppercase tracking-[0.22em] text-white/25 lg:block">

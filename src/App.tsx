@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
-import { useAppStore } from '@/store/useAppStore'
+import { FeedbackPage } from '@/components/Feedback/FeedbackPage'
+import { FeedbackQRModal } from '@/components/Feedback/FeedbackQRModal'
 import { PanelConnector } from '@/components/InformationPanel/PanelConnector'
 import { TopicPanel } from '@/components/InformationPanel/TopicPanel'
 import { Header } from '@/components/Interface/Header'
@@ -11,17 +11,27 @@ import { PosterView } from '@/components/Poster/PosterView'
 import { PresentationOverlay } from '@/components/Presentation/PresentationOverlay'
 import { KnowledgeUniverse } from '@/components/Scene3D/KnowledgeUniverse'
 import { TopicSidebar } from '@/components/Sidebar/TopicSidebar'
+import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
+import { useRoute } from '@/hooks/useRoute'
+import { useAppStore } from '@/store/useAppStore'
 
 export function App() {
+  const { route, navigateTo } = useRoute()
   const poster = useAppStore((state) => state.poster)
   const presentation = useAppStore((state) => state.presentation)
   const reducedMotion = useAppStore((state) => state.reducedMotion)
+  const feedbackQrOpen = useAppStore((state) => state.feedbackQrOpen)
+  const setFeedbackQrOpen = useAppStore((state) => state.setFeedbackQrOpen)
 
   useKeyboardNavigation()
 
   useEffect(() => {
     document.documentElement.classList.toggle('reduced-motion', reducedMotion)
   }, [reducedMotion])
+
+  if (route === 'feedback') {
+    return <FeedbackPage onBackToUniverse={() => navigateTo('universe')} />
+  }
 
   if (poster) return <PosterView />
 
@@ -40,7 +50,7 @@ export function App() {
 
       <NodeLabels />
 
-      {!presentation && <Header />}
+      {!presentation && <Header onOpenFeedback={() => navigateTo('feedback')} />}
       {!presentation && <Toolbar />}
 
       <PanelConnector />
@@ -49,6 +59,12 @@ export function App() {
 
       <TopicSidebar />
       <SettingsPanel />
+
+      <FeedbackQRModal
+        open={feedbackQrOpen}
+        onClose={() => setFeedbackQrOpen(false)}
+        onNavigateFeedback={() => navigateTo('feedback')}
+      />
     </div>
   )
 }

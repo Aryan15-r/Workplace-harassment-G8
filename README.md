@@ -43,6 +43,8 @@ network request, backend, database or API key is involved.
 | Presentation mode | **Present** top-right — fullscreen, larger panel, keyboard navigation |
 | Printable poster | **Poster** top-right → *Print / Save as PDF* |
 | Quality / motion | **Settings** top-right |
+| Feedback form | **Feedback** top-right, or navigate directly to `/feedback` |
+| Feedback QR code | **Feedback QR** in bottom toolbar, sidebar, or printable poster |
 
 **Presentation mode** hides the free-exploration chrome, enlarges the information panel,
 shows the topic progress, requests fullscreen and keeps arrow-key navigation active.
@@ -160,18 +162,49 @@ fonts all load from `dist/` with no 404s, and the 3D scene renders from the buil
 
 4. **Save and Deploy.** Every push to `main` redeploys; pull requests get preview URLs.
 
+---
+
+## Custom Feedback System & Google Sheets Backend
+
+The presentation website features a dedicated custom feedback collection system integrated directly with Google Sheets.
+
+* **Dedicated Route**: [`/feedback`](/feedback) (accessible via direct link, in-app navigation, or QR code).
+* **Fields**: Name (required), Student ID (optional), Star Rating (1–5 stars), Feedback / Review (required textarea).
+* **Spam & Flooding Protection**: Honeypot field and short-term duplicate submission caching.
+* **Storage Backend**: Google Apps Script (`backend/google-apps-script/Code.gs`) saving to Google Sheets without requiring attendees to sign in.
+* **Printable QR Code**: Displayed on the interactive site and integrated directly onto the printable A3 poster for mobile scanning.
+
+### Google Sheets Integration Setup
+
+For complete, beginner-friendly instructions on creating the Google Sheet, deploying `Code.gs` as a Web App, and configuring `VITE_FEEDBACK_ENDPOINT`, see:
+
+👉 [**Google Sheets Feedback Setup Guide**](docs/GOOGLE_SHEETS_FEEDBACK_SETUP.md)
+
+---
+
+## Deployment
+
+### Cloudflare Pages — Git integration (recommended)
+
+1. Push this repository to GitHub or GitLab.
+2. In the Cloudflare dashboard, go to **Workers & Pages** ➔ **Create application** ➔ **Pages** ➔ **Connect to Git**.
+3. Select this repository and use the presets:
+
+   | Setting | Value |
+   | --- | --- |
+   | Framework preset | None / Vite |
+   | Build command | `npm run build` |
+   | Build output directory | `dist` |
+   | Environment variables | `VITE_FEEDBACK_ENDPOINT`, `VITE_SITE_URL` |
+
+4. **Save and Deploy.** Every push to `main` redeploys; pull requests get preview URLs.
+
 Committed for this path:
 
 * `wrangler.toml` — declares `pages_build_output_dir = "./dist"`.
 * `.nvmrc` — pins Node 22 for Cloudflare's build image.
-* `public/_headers` — long-lived immutable caching for `/assets/*`, revalidating
-  `index.html`, plus `nosniff`, `Referrer-Policy` and `X-Frame-Options`. Cloudflare Pages
-  reads this file automatically; it is copied into `dist/` by Vite.
-
-**No SPA rewrite is needed.** This is a single page with no client-side routes, and
-`base: './'` keeps asset URLs relative. If routing is added later, switch `base` to `'/'`
-first, then add `_redirects` containing `/* /index.html 200` — with relative assets that
-rewrite would break asset URLs on unknown paths.
+* `public/_headers` — caching rules and security headers.
+* `public/_redirects` — SPA rewrite (`/* /index.html 200`) enabling direct browser navigation to `/feedback`.
 
 ### Cloudflare Pages — direct upload
 

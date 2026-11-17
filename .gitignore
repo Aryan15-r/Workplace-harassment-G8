@@ -3,6 +3,9 @@ dist
 dist-ssr
 .DS_Store
 *.local
+.env
+.env.*
+!.env.example
 .vite
 .vercel
 .wrangler

@@ -2,10 +2,9 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Relative base keeps the production build portable: it works at a domain root,
-// in a sub-folder, and on Cloudflare Pages / Vercel / GitHub Pages without changes.
+// Base path '/' ensures routes like /feedback cleanly resolve /assets/* on all hosts.
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [react()],
   resolve: {
     alias: {

@@ -29,6 +29,7 @@ export interface AppState {
   settingsOpen: boolean
   presentation: boolean
   poster: boolean
+  feedbackQrOpen: boolean
   quality: Quality
   reducedMotion: boolean
   autoQuality: boolean
@@ -44,6 +45,7 @@ export interface AppState {
   setSettingsOpen: (open: boolean) => void
   setPresentation: (on: boolean) => void
   setPoster: (on: boolean) => void
+  setFeedbackQrOpen: (open: boolean) => void
   setQuality: (quality: Quality) => void
   downgradeQuality: () => void
   setReducedMotion: (value: boolean) => void
@@ -64,6 +66,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
   settingsOpen: false,
   presentation: false,
   poster: false,
+  feedbackQrOpen: false,
   quality: initialQuality(),
   reducedMotion: prefersReducedMotion(),
   autoQuality: true,
@@ -105,6 +108,7 @@ export const useAppStore = create<AppState>()((set, get) => ({
   },
 
   setPoster: (on) => set({ poster: on, sidebarOpen: false, settingsOpen: false }),
+  setFeedbackQrOpen: (open) => set({ feedbackQrOpen: open }),
 
   setQuality: (quality) => set({ quality }),
   downgradeQuality: () =>

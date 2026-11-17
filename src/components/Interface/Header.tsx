@@ -1,6 +1,10 @@
-import { LayoutList, Play, Printer, Settings2 } from 'lucide-react'
+import { LayoutList, MessageSquarePlus, Play, Printer, Settings2 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useAppStore } from '@/store/useAppStore'
+
+interface HeaderProps {
+  onOpenFeedback?: () => void
+}
 
 interface HeaderButtonProps {
   icon: LucideIcon
@@ -28,13 +32,22 @@ function HeaderButton({ icon: Icon, label, onClick, active = false }: HeaderButt
   )
 }
 
-export function Header() {
+export function Header({ onOpenFeedback }: HeaderProps = {}) {
   const sidebarOpen = useAppStore((state) => state.sidebarOpen)
   const settingsOpen = useAppStore((state) => state.settingsOpen)
   const toggleSidebar = useAppStore((state) => state.toggleSidebar)
   const setSettingsOpen = useAppStore((state) => state.setSettingsOpen)
   const setPresentation = useAppStore((state) => state.setPresentation)
   const setPoster = useAppStore((state) => state.setPoster)
+  const setFeedbackQrOpen = useAppStore((state) => state.setFeedbackQrOpen)
+
+  const handleFeedbackClick = () => {
+    if (onOpenFeedback) {
+      onOpenFeedback()
+    } else {
+      setFeedbackQrOpen(true)
+    }
+  }
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-40 flex items-start justify-between gap-4 p-4 sm:p-6">
@@ -56,6 +69,11 @@ export function Header() {
       <div className="pointer-events-auto flex items-center gap-1.5">
         <HeaderButton icon={Play} label="Present" onClick={() => setPresentation(true)} />
         <HeaderButton icon={Printer} label="Poster" onClick={() => setPoster(true)} />
+        <HeaderButton
+          icon={MessageSquarePlus}
+          label="Feedback"
+          onClick={handleFeedbackClick}
+        />
         <HeaderButton
           icon={Settings2}
           label="Settings"

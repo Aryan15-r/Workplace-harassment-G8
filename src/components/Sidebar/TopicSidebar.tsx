@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Play, X } from 'lucide-react'
+import { MessageSquarePlus, Play, X } from 'lucide-react'
 import { getAncestors, MAIN_TOPICS, ROOT_TOPIC, SUB_TOPICS } from '@/data/topics'
 import { useAppStore } from '@/store/useAppStore'
 import { TopicTree } from './TopicTree'
@@ -13,6 +13,7 @@ export function TopicSidebar() {
   const setSidebarOpen = useAppStore((state) => state.setSidebarOpen)
   const select = useAppStore((state) => state.select)
   const setPresentation = useAppStore((state) => state.setPresentation)
+  const setFeedbackQrOpen = useAppStore((state) => state.setFeedbackQrOpen)
   const reducedMotion = useAppStore((state) => state.reducedMotion)
 
   const [expanded, setExpanded] = useState<Set<string>>(new Set(INITIAL_EXPANDED))
@@ -107,6 +108,17 @@ export function TopicSidebar() {
             >
               <Play className="h-3.5 w-3.5" strokeWidth={1.7} />
               Start guided presentation
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSidebarOpen(false)
+                setFeedbackQrOpen(true)
+              }}
+              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-[11px] font-medium text-[#c4c0b4] transition-colors hover:border-gold/35 hover:text-gold"
+            >
+              <MessageSquarePlus className="h-3.5 w-3.5" />
+              <span>Share Feedback / QR</span>
             </button>
             <p className="mt-2.5 text-center font-mono text-[9px] uppercase tracking-[0.16em] text-white/25">
               ← → to navigate
