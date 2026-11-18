@@ -129,7 +129,7 @@ export function PosterView() {
               </div>
             </div>
             <p className="poster-meta">
-              Workplace Harassment
+              Workplace Harassment - Group-8
               <br />
               Interactive Knowledge Universe
             </p>
